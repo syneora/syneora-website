@@ -577,7 +577,7 @@ export default function SyneoraSite() {
               <h4 className="text-base font-semibold">Say hello</h4>
               <ul className="mt-4 space-y-3 text-sm">
                 <li className="flex items-center gap-2 text-slate-700 dark:text-slate-300">
-                  <Mail className="h-4 w-4" /> <a className="underline-offset-4 hover:underline" href="mailto:hello@syneora.example">hello@syneora.example</a>
+                  <Mail className="h-4 w-4" /> <a className="underline-offset-4 hover:underline" href="mailto:syneorasdnbhd@gmail.com">syneorasdnbhd@gmail.com</a>
                 </li>
                 <li className="flex items-center gap-2 text-slate-700 dark:text-slate-300">
                   <PhoneCall className="h-4 w-4" /> +60‑XXX‑XXXX (placeholder)
