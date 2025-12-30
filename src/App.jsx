@@ -586,7 +586,7 @@ export default function SyneoraSite() {
                   <MapPin className="mt-0.5 h-4 w-4" /> Kuala Lumpur, Malaysia (registered office)
                 </li>*/
               </ul>
-              <p className="mt-4 text-xs text-slate-500">Replace placeholders before publishing.</p>
+              /*<p className="mt-4 text-xs text-slate-500">Replace placeholders before publishing.</p>*/
             </div>
 
             <form
