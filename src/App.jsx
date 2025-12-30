@@ -574,19 +574,21 @@ export default function SyneoraSite() {
           <SectionHeader kicker="Get in touch" title="Contact Syneora" subtitle="Tell us about your challenge—strategy, build, security, or hiring." />
           <div className="mt-10 grid gap-8 lg:grid-cols-3">
             <div className="rounded-2xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900">
+              {/*
               <h4 className="text-base font-semibold">Say hello</h4>
               <ul className="mt-4 space-y-3 text-sm">
                 <li className="flex items-center gap-2 text-slate-700 dark:text-slate-300">
                   <Mail className="h-4 w-4" /> <a className="underline-offset-4 hover:underline" href="mailto:syneorasdnbhd@gmail.com">syneorasdnbhd@gmail.com</a>
                 </li>
-                /*<li className="flex items-center gap-2 text-slate-700 dark:text-slate-300">
+                <li className="flex items-center gap-2 text-slate-700 dark:text-slate-300">
                   <PhoneCall className="h-4 w-4" /> +60‑XXX‑XXXX (placeholder)
                 </li>
                 <li className="flex items-start gap-2 text-slate-700 dark:text-slate-300">
                   <MapPin className="mt-0.5 h-4 w-4" /> Kuala Lumpur, Malaysia (registered office)
-                </li>*/
+                </li>
               </ul>
-              /*<p className="mt-4 text-xs text-slate-500">Replace placeholders before publishing.</p>*/
+              <p className="mt-4 text-xs text-slate-500">Replace placeholders before publishing.</p>
+              */}
             </div>
 
             <form
