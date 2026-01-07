@@ -591,7 +591,7 @@ export default function SyneoraSite() {
               {/* <p className="mt-4 text-xs text-slate-500">Replace placeholders before publishing.</p> */}
             </div>
 
-        const FORMSPREE_ENDPOINT = "https://formspree.io/f/XXXXYYYY"; // <-- replace
+        const FORMSPREE_ENDPOINT = "https://formspree.io/f/xlgdqdqn"; // <-- replace
         
         async function handleContactSubmit(e) {
           e.preventDefault();
