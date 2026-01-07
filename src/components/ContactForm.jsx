@@ -50,8 +50,9 @@ export default function ContactForm() {
 
   // EXACT SAME INPUT STYLES YOU HAD IN App.jsx
   const inputClass =
-    "w-full rounded-xl border border-slate-700 bg-slate-950/40 px-4 py-3 text-slate-100 outline-none focus:ring-2 focus:ring-sky-500";
-  const labelClass = "mb-1 block text-sm font-medium text-slate-900 dark:text-slate-100";
+  "w-full rounded-lg border border-slate-300 shadow-sm bg-white px-4 py-3 text-slate-900 placeholder-slate-400 outline-none focus:ring-2 focus:ring-sky-500 dark:border-slate-700 dark:bg-white dark:text-slate-900";
+  const labelClass =
+  "mb-1 block text-sm font-medium text-slate-700 dark:text-slate-300";
 
   return (
     <div className="lg:col-span-2">
