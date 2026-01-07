@@ -593,7 +593,7 @@ export default function SyneoraSite() {
 
             <form
               https://formspree.io/f/xlgdqdqn
-              className="lg:col-span-2"
+              className="lg:col-span-4"
             >
               
             <input type="hidden" name="_next" value="/success.html" />
