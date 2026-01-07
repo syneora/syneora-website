@@ -303,7 +303,9 @@ export default function SyneoraSite() {
   const [open, setOpen] = useState(false);
 
   const year = useMemo(() => new Date().getFullYear(), []);
-
+  const contactCardClass =
+      "rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900";
+  
   return (
     <div id="home" className="min-h-screen bg-gradient-to-b from-slate-50 to-white text-slate-900 dark:from-slate-950 dark:to-slate-950 dark:text-slate-100">
       {/* Top bar */}
