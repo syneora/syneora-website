@@ -571,119 +571,30 @@ export default function SyneoraSite() {
       {/* Contact */}
       <section id="contact" className="scroll-mt-20 bg-slate-50/60 py-16 dark:bg-slate-900/40 sm:py-24">
         <Container>
-          <SectionHeader kicker="Get in touch" title="Contact Syneora" subtitle="Tell us about your challenge—strategy, build, security, or hiring." />
+          <SectionHeader
+            kicker="Get in touch"
+            title="Contact Syneora"
+            subtitle="Tell us about your challenge—strategy, build, security, or hiring."
+          />
+      
           <div className="mt-10 grid gap-8 lg:grid-cols-3">
+            {/* LEFT CARD */}
             <div className="rounded-2xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900">
               <h2 className="text-base font-semibold">Say Hello!</h2>
               <ul className="mt-4 space-y-3 text-sm">
-                <li className="flex items-center gap-2 text-slate-700 dark:text-slate-300">
-                  <Mail className="h-4 w-4" /> <a className="underline-offset-4 hover:underline" href="mailto:connect@syneora.com">connect@syneora.com</a>
+                <li className="flex items-center gap-2">
+                  <Mail className="h-4 w-4" />
+                  <a href="mailto:connect@syneora.com">connect@syneora.com</a>
                 </li>
-                {/*
-                <li className="flex items-center gap-2 text-slate-700 dark:text-slate-300">
-                  <PhoneCall className="h-4 w-4" /> +60‑XXX‑XXXX (placeholder)
-                </li>
-                */}
-                <li className="flex items-start gap-2 text-slate-700 dark:text-slate-300">
-                  <MapPin className="mt-0.5 h-4 w-4" /> 2nd Floor Block A, Jalan Pkak 1, Pusat Komersial Ayer Keroh, Melaka 75450, Malaysia
+                <li className="flex items-start gap-2">
+                  <MapPin className="mt-0.5 h-4 w-4" />
+                  2nd Floor Block A, Jalan Pkak 1, Pusat Komersial Ayer Keroh, Melaka 75450, Malaysia
                 </li>
               </ul>
-              {/* <p className="mt-4 text-xs text-slate-500">Replace placeholders before publishing.</p> */}
             </div>
-
-        const FORMSPREE_ENDPOINT = "https://formspree.io/f/xlgdqdqn"; // <-- replace
-        
-        async function handleContactSubmit(e) {
-          e.preventDefault();
-        
-          const form = e.currentTarget;
-          const fd = new FormData(form);
-        
-          // Save entered fields for success.html to show (browser-only, no backend)
-          const payload = Object.fromEntries(fd.entries());
-          sessionStorage.setItem("syneora_contact_submission", JSON.stringify(payload));
-        
-          // Send to Formspree
-          const res = await fetch(FORMSPREE_ENDPOINT, {
-            method: "POST",
-            headers: { Accept: "application/json" },
-            body: fd,
-          });
-        
-          if (res.ok) {
-            // Go to static success page
-            window.location.href = "/success.html";
-          } else {
-            alert("Message failed to send. Please try again.");
-          }
-        }
-            
-            <form
-              onSubmit={handleContactSubmit} className="lg:col-span-2"
-            >
-              
-            <input type="hidden" name="_next" value="/success.html" />
-            
-              <div className="grid gap-4 sm:grid-cols-2">
-                <div className="sm:col-span-1">
-                  <label className="mb-1 block text-sm font-medium">Name</label>
-                  <input
-                    name="name"
-                    required
-                    className="w-full rounded-xl border border-slate-700 bg-slate-950/40 px-4 py-3 text-slate-100 outline-none focus:ring-2 focus:ring-sky-500"
-                    placeholder="Your name"
-                  />
-                </div>
-              
-                <div className="sm:col-span-1">
-                  <label className="mb-1 block text-sm font-medium">Work Email</label>
-                  <input
-                    type="email"
-                    name="email"
-                    required
-                    className="w-full rounded-xl border border-slate-700 bg-slate-950/40 px-4 py-3 text-slate-100 outline-none focus:ring-2 focus:ring-sky-500"
-                    placeholder="name@company.com"
-                  />
-                </div>
-              
-                <div className="sm:col-span-1">
-                  <label className="mb-1 block text-sm font-medium">Company</label>
-                  <input
-                    name="company"
-                    className="w-full rounded-xl border border-slate-700 bg-slate-950/40 px-4 py-3 text-slate-100 outline-none focus:ring-2 focus:ring-sky-500"
-                    placeholder="Company name"
-                  />
-                </div>
-              
-                <div className="sm:col-span-1">
-                  <label className="mb-1 block text-sm font-medium">Country</label>
-                  <input
-                    name="country"
-                    className="w-full rounded-xl border border-slate-700 bg-slate-950/40 px-4 py-3 text-slate-100 outline-none focus:ring-2 focus:ring-sky-500"
-                    placeholder="Country"
-                  />
-                </div>
-              
-                <div className="sm:col-span-2">
-                  <label className="mb-1 block text-sm font-medium">Message</label>
-                  <textarea
-                    name="message"
-                    required
-                    rows={6}
-                    className="w-full resize-none rounded-xl border border-slate-700 bg-slate-950/40 px-4 py-3 text-slate-100 outline-none focus:ring-2 focus:ring-sky-500"
-                    placeholder="Tell us what you need…"
-                  />
-                </div>
-              </div>
-              
-              <button
-                type="submit"
-                className="mt-6 inline-flex w-full items-center justify-center rounded-xl bg-sky-500 px-6 py-3 font-medium text-white hover:bg-sky-400"
-              >
-                Send Message
-              </button>
-
-            </form>
+      
+            {/* RIGHT SIDE FORM */}
+            <ContactForm />
           </div>
         </Container>
       </section>
