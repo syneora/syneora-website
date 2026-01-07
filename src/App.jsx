@@ -672,9 +672,9 @@ export default function SyneoraSite() {
             <div>
               <div className="text-sm font-semibold">Contact</div>
               <ul className="mt-3 space-y-2 text-sm text-slate-600 dark:text-slate-300">
-                <li className="flex items-center gap-2"><Mail className="h-4 w-4" /> hello@syneora.example</li>
-                <li className="flex items-center gap-2"><PhoneCall className="h-4 w-4" /> +60‑XXX‑XXXX</li>
-                <li className="flex items-center gap-2"><MapPin className="h-4 w-4" /> Kuala Lumpur, MY</li>
+                <li className="flex items-center gap-2"><Mail className="h-4 w-4" /> connect@syneora.com</li>
+                {/* <li className="flex items-center gap-2"><PhoneCall className="h-4 w-4" /> +60‑XXX‑XXXX</li> */}
+                <li className="flex items-center gap-2"><MapPin className="h-4 w-4" /> Melaka, MY</li>
               </ul>
             </div>
           </div>
