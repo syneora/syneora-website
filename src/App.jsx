@@ -598,6 +598,17 @@ export default function SyneoraSite() {
                 alert(`Thanks! We\n\n${JSON.stringify(data, null, 2)}`);
               }}
               className="lg:col-span-2"
+
+              name="contact"
+              method="POST"
+              data-netlify="true"
+              data-netlify-honeypot="bot-field"
+
+              {/* required for Netlify */}
+              <input type="hidden" name="form-name" value="contact" />
+              {/* spam trap */}
+              <input type="hidden" name="bot-field" />
+            
             >
               <div className="grid gap-4 sm:grid-cols-2">
                 <div>
@@ -679,7 +690,7 @@ export default function SyneoraSite() {
             </div>
           </div>
           <div className="mt-8 flex items-center justify-between border-t border-slate-200 pt-6 text-xs text-slate-500 dark:border-slate-800 dark:text-slate-400">
-            <span>© {year} Syneora Sdn Bhd. All rights reserved.</span>
+            <span>© {2025} Syneora Sdn Bhd. All rights reserved.</span>
             <span>Built with ❤️ & discipline.</span>
           </div>
         </Container>
