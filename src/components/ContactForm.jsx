@@ -34,9 +34,16 @@ export default function ContactForm() {
     });
 
     if (!res.ok) {
-      const txt = await res.text().catch(() => "");
-      throw new Error(txt || `Request failed (${res.status})`);
-    }
+  let msg = `Request failed (${res.status})`;
+  try {
+    const data = await res.json();
+    if (data?.error) msg = data.error;
+  } catch {
+    const txt = await res.text().catch(() => "");
+    if (txt) msg = txt;
+  }
+  throw new Error(msg);
+}
 
     sessionStorage.setItem(
       "syneora_contact_submission",
@@ -45,12 +52,11 @@ export default function ContactForm() {
 
     window.location.href = "/success";
   } catch (err) {
-    setLoading(false);
-    setStatus({
-      type: "error",
-      message: "Message failed. Please try again.",
-    });
-  }
+  setLoading(false);
+  setStatus({
+    type: "error",
+    message: err?.message || "Message failed. Please try again.",
+  });
 }
 
   // EXACT SAME INPUT STYLES YOU HAD IN App.jsx
