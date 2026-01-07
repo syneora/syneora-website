@@ -57,7 +57,7 @@ export default function ContactForm() {
   return (
 
         <form onSubmit={handleSubmit} className="mt-6">
-          <div className="grid gap-4 sm:grid-cols-2">
+          <div className="grid gap-4">
             <div className="sm:col-span-1">
               <label className={labelClass}>Name</label>
               <input name="name" required className={inputClass} placeholder="Your name" />
