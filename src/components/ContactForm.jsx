@@ -17,6 +17,7 @@ export default function ContactForm() {
       company: fd.get("company")?.trim(),
       country: fd.get("country")?.trim(),
       message: fd.get("message")?.trim(),
+      website: fd.get("website")?.trim(), // honeypot
     };
 
     if (!payload.name || !payload.email || !payload.message) {
@@ -41,7 +42,6 @@ export default function ContactForm() {
         throw new Error(data?.error || `Request failed (${res.status})`);
       }
 
-      // optional: store submission for success page
       sessionStorage.setItem(
         "syneora_contact_submission",
         JSON.stringify(payload)
@@ -61,10 +61,20 @@ export default function ContactForm() {
     "w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 placeholder-slate-400 outline-none focus:ring-2 focus:ring-sky-500";
 
   const labelClass =
-    "mb-1 block text-sm font-medium text-slate-700 dark:text-slate-300";
+    "mb-1 block text-sm font-medium text-slate-700";
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} noValidate>
+      {/* Honeypot field (hidden from users) */}
+      <input
+        type="text"
+        name="website"
+        tabIndex="-1"
+        autoComplete="off"
+        className="hidden"
+        aria-hidden="true"
+      />
+
       <div className="grid gap-4">
         <div>
           <label className={labelClass}>Name</label>
@@ -118,10 +128,7 @@ export default function ContactForm() {
       </div>
 
       {status.message && (
-        <p
-          className="mt-4 text-sm text-red-600 dark:text-red-400"
-          role="alert"
-        >
+        <p className="mt-4 text-sm text-red-600" role="alert">
           {status.message}
         </p>
       )}
