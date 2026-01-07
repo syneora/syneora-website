@@ -16,6 +16,7 @@ export default function ContactForm() {
       email: fd.get("email")?.trim(),
       company: fd.get("company")?.trim(),
       country: fd.get("country")?.trim(),
+      topic: fd.get("topic")?.trim() || "General",
       message: fd.get("message")?.trim(),
       website: fd.get("website")?.trim(), // honeypot
     };
@@ -36,7 +37,7 @@ export default function ContactForm() {
         body: JSON.stringify(payload),
       });
 
-      const data = await res.json();
+      const data = await res.json().catch(() => ({}));
 
       if (!res.ok || !data?.ok) {
         throw new Error(data?.error || `Request failed (${res.status})`);
@@ -113,6 +114,18 @@ export default function ContactForm() {
             className={inputClass}
             placeholder="Country"
           />
+        </div>
+
+        <div>
+          <label className={labelClass}>Topic</label>
+          <select name="topic" className={inputClass} defaultValue="General">
+            <option value="General">General</option>
+            <option value="AI / GenAI">AI / GenAI</option>
+            <option value="Data Engineering">Data Engineering</option>
+            <option value="Security">Security</option>
+            <option value="Hiring / Talent">Hiring / Talent</option>
+            <option value="Partnerships">Partnerships</option>
+          </select>
         </div>
 
         <div>
