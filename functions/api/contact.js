@@ -4,10 +4,9 @@ export async function onRequestPost(context) {
   try {
     const data = await request.json();
 
-    // Honeypot (bots often fill hidden fields)
+    // Honeypot (anti-bot)
     const website = (data?.website || "").trim();
     if (website) {
-      // Pretend success to avoid tipping off bots
       return new Response(JSON.stringify({ ok: true }), {
         status: 200,
         headers: { "Content-Type": "application/json" },
@@ -29,15 +28,15 @@ export async function onRequestPost(context) {
 
     if (!env?.RESEND_API_KEY) {
       return new Response(
-        JSON.stringify({
-          ok: false,
-          error: "RESEND_API_KEY not set in Cloudflare Pages env vars",
-        }),
+        JSON.stringify({ ok: false, error: "RESEND_API_KEY not configured" }),
         { status: 500, headers: { "Content-Type": "application/json" } }
       );
     }
 
-    const emailBody =
+    /* ---------------------------
+       1) INTERNAL EMAIL (to Syneora)
+    ---------------------------- */
+    const internalBody =
 `New contact request from Syneora website
 
 Name: ${name}
@@ -49,7 +48,7 @@ Message:
 ${message}
 `;
 
-    const res = await fetch("https://api.resend.com/emails", {
+    const internalRes = await fetch("https://api.resend.com/emails", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${env.RESEND_API_KEY}`,
@@ -60,26 +59,56 @@ ${message}
         to: ["connect@syneora.com"],
         reply_to: email,
         subject: "[Syneora Website] New contact request",
-        text: emailBody,
+        text: internalBody,
       }),
     });
 
-    const text = await res.text().catch(() => "");
-
-    if (!res.ok) {
+    if (!internalRes.ok) {
+      const t = await internalRes.text();
       return new Response(
-        JSON.stringify({ ok: false, error: text || `Resend failed (${res.status})` }),
+        JSON.stringify({ ok: false, error: t }),
         { status: 500, headers: { "Content-Type": "application/json" } }
       );
     }
+
+    /* ---------------------------
+       2) AUTO-REPLY TO USER
+    ---------------------------- */
+    const autoReplyBody =
+`Hi ${name},
+
+Thank you for reaching out to Syneora.
+
+We’ve received your message and someone from our team will review it shortly.
+If your query is urgent, feel free to reply directly to this email.
+
+Best regards,
+Syneora Team
+https://syneora.com
+`;
+
+    await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${env.RESEND_API_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        from: "Syneora <connect@syneora.com>",
+        to: [email],
+        subject: "We’ve received your message – Syneora",
+        text: autoReplyBody,
+      }),
+    });
 
     return new Response(JSON.stringify({ ok: true }), {
       status: 200,
       headers: { "Content-Type": "application/json" },
     });
+
   } catch (err) {
     return new Response(
-      JSON.stringify({ ok: false, error: String(err?.message || err) }),
+      JSON.stringify({ ok: false, error: String(err) }),
       { status: 500, headers: { "Content-Type": "application/json" } }
     );
   }
