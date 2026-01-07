@@ -55,15 +55,6 @@ export default function ContactForm() {
   "mb-1 block text-sm font-medium text-slate-700 dark:text-slate-300";
 
   return (
-    <div className="lg:col-span-2">
-      {/* Optional: wrap in a card so it visually matches the left block */}
-      <div className="rounded-2xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900">
-        <h3 className="text-base font-semibold text-slate-900 dark:text-slate-100">
-          Send us a message
-        </h3>
-        <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">
-          We’ll reply within 1–2 business days.
-        </p>
 
         <form onSubmit={handleSubmit} className="mt-6">
           <div className="grid gap-4 sm:grid-cols-2">
@@ -119,7 +110,7 @@ export default function ContactForm() {
             disabled={loading}
             className="mt-6 inline-flex w-full items-center justify-center rounded-xl bg-sky-500 px-6 py-3 font-medium text-white hover:bg-sky-400 disabled:opacity-60"
           >
-            {loading ? "Sending..." : "Send Message"}
+            {loading ? "Sending..." : "Send Request"}
           </button>
         </form>
       </div>
