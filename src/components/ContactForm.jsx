@@ -5,48 +5,53 @@ export default function ContactForm() {
   const [status, setStatus] = useState({ type: "", message: "" });
 
   async function handleSubmit(e) {
-    e.preventDefault();
-    setStatus({ type: "", message: "" });
-    setLoading(true);
+  e.preventDefault();
+  setStatus({ type: "", message: "" });
+  setLoading(true);
 
-    const fd = new FormData(e.currentTarget);
+  const fd = new FormData(e.currentTarget);
 
-    const payload = {
-      name: (fd.get("name") || "").toString().trim(),
-      email: (fd.get("email") || "").toString().trim(),
-      company: (fd.get("company") || "").toString().trim(),
-      country: (fd.get("country") || "").toString().trim(),
-      message: (fd.get("message") || "").toString().trim(),
-    };
+  const payload = {
+    name: (fd.get("name") || "").trim(),
+    email: (fd.get("email") || "").trim(),
+    company: (fd.get("company") || "").trim(),
+    country: (fd.get("country") || "").trim(),
+    message: (fd.get("message") || "").trim(),
+  };
 
-    if (!payload.name || !payload.email || !payload.message) {
-      setLoading(false);
-      setStatus({ type: "error", message: "Please fill Name, Email, and Message." });
-      return;
-    }
-
-    try {
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-
-      if (!res.ok) {
-        const txt = await res.text().catch(() => "");
-        throw new Error(txt || `Request failed (${res.status})`);
-      }
-
-      sessionStorage.setItem("syneora_contact_submission", JSON.stringify(payload));
-      window.location.href = "/success.html";
-    } catch (err) {
-      setLoading(false);
-      setStatus({
-        type: "error",
-        message: err?.message || "Message failed to send. Please try again.",
-      });
-    }
+  if (!payload.name || !payload.email || !payload.message) {
+    setLoading(false);
+    setStatus({ type: "error", message: "Please fill required fields." });
+    return;
   }
+
+  try {
+    // 👇 THIS IS WHERE IT GOES
+    const res = await fetch("/api/contact", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+
+    if (!res.ok) {
+      const txt = await res.text().catch(() => "");
+      throw new Error(txt || `Request failed (${res.status})`);
+    }
+
+    sessionStorage.setItem(
+      "syneora_contact_submission",
+      JSON.stringify(payload)
+    );
+
+    window.location.href = "/success.html";
+  } catch (err) {
+    setLoading(false);
+    setStatus({
+      type: "error",
+      message: "Message failed. Please try again.",
+    });
+  }
+}
 
   // EXACT SAME INPUT STYLES YOU HAD IN App.jsx
   const inputClass =
