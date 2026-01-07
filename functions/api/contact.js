@@ -4,6 +4,16 @@ export async function onRequestPost(context) {
   try {
     const data = await request.json();
 
+    // Honeypot (bots often fill hidden fields)
+    const website = (data?.website || "").trim();
+    if (website) {
+      // Pretend success to avoid tipping off bots
+      return new Response(JSON.stringify({ ok: true }), {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+
     const name = (data?.name || "").trim();
     const email = (data?.email || "").trim();
     const company = (data?.company || "").trim();
@@ -19,13 +29,16 @@ export async function onRequestPost(context) {
 
     if (!env?.RESEND_API_KEY) {
       return new Response(
-        JSON.stringify({ ok: false, error: "RESEND_API_KEY not set in Cloudflare Pages env vars" }),
+        JSON.stringify({
+          ok: false,
+          error: "RESEND_API_KEY not set in Cloudflare Pages env vars",
+        }),
         { status: 500, headers: { "Content-Type": "application/json" } }
       );
     }
 
     const emailBody =
-`New contact request from Syneora
+`New contact request from Syneora website
 
 Name: ${name}
 Email: ${email}
@@ -46,7 +59,7 @@ ${message}
         from: "Syneora <connect@syneora.com>",
         to: ["connect@syneora.com"],
         reply_to: email,
-        subject: "New contact request – Syneora",
+        subject: "[Syneora Website] New contact request",
         text: emailBody,
       }),
     });
