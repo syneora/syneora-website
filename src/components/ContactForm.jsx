@@ -113,7 +113,5 @@ export default function ContactForm() {
             {loading ? "Sending..." : "Send Request"}
           </button>
         </form>
-      </div>
-    </div>
   );
 }
