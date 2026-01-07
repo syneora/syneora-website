@@ -26,6 +26,7 @@ import {
   Lightbulb,
   Workflow,
 } from "lucide-react";
+import ContactForm from "./components/ContactForm";
 
 // ------------------------------------------------------------
 // Syneora Sdn Bhd — Single‑file React site
