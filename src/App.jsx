@@ -592,15 +592,11 @@ export default function SyneoraSite() {
             </div>
 
             <form
-              name="contact"
-              method="POST"
-              data-netlify="true"
-              data-netlify-honeypot="bot-field"
-              action="/success"
+              https://formspree.io/f/xlgdqdqn
               className="lg:col-span-2"
             >
-              <input type="hidden" name="form-name" value="contact" />
-              <input type="hidden" name="bot-field" />
+              
+            <input type="hidden" name="_next" value="/success.html" />
             
               <div className="grid gap-4 sm:grid-cols-2">
                 <div>
