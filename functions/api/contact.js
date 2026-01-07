@@ -38,7 +38,7 @@ ${message}
           },
         ],
         from: {
-          email: "connect@syneora.com",   // MUST be a real Workspace inbox
+          email: "connect@syneora.com",
           name: "Syneora Website",
         },
         subject: "New contact request – Syneora",
@@ -48,14 +48,17 @@ ${message}
             value: emailBody,
           },
         ],
+        headers: {
+          "X-MailChannels-Auth": "syneora.com",
+        },
       }),
     });
 
-    const responseText = await mcRes.text().catch(() => "");
+    const text = await mcRes.text().catch(() => "");
 
     if (!mcRes.ok) {
       return new Response(
-        JSON.stringify({ ok: false, error: responseText || "MailChannels rejected request" }),
+        JSON.stringify({ ok: false, error: text || "MailChannels rejected request" }),
         { status: 500, headers: { "Content-Type": "application/json" } }
       );
     }
