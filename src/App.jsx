@@ -596,7 +596,7 @@ export default function SyneoraSite() {
               method="POST"
               data-netlify="true"
               data-netlify-honeypot="bot-field"
-              action="/success.html"
+              action="/success"
               className="lg:col-span-2"
             >
               <input type="hidden" name="form-name" value="contact" />
