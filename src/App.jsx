@@ -592,11 +592,13 @@ export default function SyneoraSite() {
             </div>
 
             <form
+              {/*
               onSubmit={(e) => {
                 e.preventDefault();
+              */}
                 const data = Object.fromEntries(new FormData(e.currentTarget));
-                alert(`Thanks! We\n\n${JSON.stringify(data, null, 2)}`);
-              }}
+              {/* alert(`Thanks! We\n\n${JSON.stringify(data, null, 2)}`);*/}
+              {/* }} */}
               className="lg:col-span-2"
 
               name="contact"
