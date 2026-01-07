@@ -591,66 +591,98 @@ export default function SyneoraSite() {
               {/* <p className="mt-4 text-xs text-slate-500">Replace placeholders before publishing.</p> */}
             </div>
 
+        const FORMSPREE_ENDPOINT = "https://formspree.io/f/XXXXYYYY"; // <-- replace
+        
+        async function handleContactSubmit(e) {
+          e.preventDefault();
+        
+          const form = e.currentTarget;
+          const fd = new FormData(form);
+        
+          // Save entered fields for success.html to show (browser-only, no backend)
+          const payload = Object.fromEntries(fd.entries());
+          sessionStorage.setItem("syneora_contact_submission", JSON.stringify(payload));
+        
+          // Send to Formspree
+          const res = await fetch(FORMSPREE_ENDPOINT, {
+            method: "POST",
+            headers: { Accept: "application/json" },
+            body: fd,
+          });
+        
+          if (res.ok) {
+            // Go to static success page
+            window.location.href = "/success.html";
+          } else {
+            alert("Message failed to send. Please try again.");
+          }
+        }
+            
             <form
-              https://formspree.io/f/xlgdqdqn
-              className="lg:col-span-4"
+              onSubmit={handleContactSubmit} className="lg:col-span-2"
             >
               
             <input type="hidden" name="_next" value="/success.html" />
             
               <div className="grid gap-4 sm:grid-cols-2">
-                <div>
+                <div className="sm:col-span-1">
                   <label className="mb-1 block text-sm font-medium">Name</label>
                   <input
                     name="name"
                     required
-                    className="w-full rounded-xl border px-3 py-2"
+                    className="w-full rounded-xl border border-slate-700 bg-slate-950/40 px-4 py-3 text-slate-100 outline-none focus:ring-2 focus:ring-sky-500"
+                    placeholder="Your name"
                   />
                 </div>
-            
-                <div>
+              
+                <div className="sm:col-span-1">
                   <label className="mb-1 block text-sm font-medium">Work Email</label>
                   <input
                     type="email"
                     name="email"
                     required
-                    className="w-full rounded-xl border px-3 py-2"
+                    className="w-full rounded-xl border border-slate-700 bg-slate-950/40 px-4 py-3 text-slate-100 outline-none focus:ring-2 focus:ring-sky-500"
+                    placeholder="name@company.com"
                   />
                 </div>
-            
-                <div>
+              
+                <div className="sm:col-span-1">
                   <label className="mb-1 block text-sm font-medium">Company</label>
                   <input
                     name="company"
-                    className="w-full rounded-xl border px-3 py-2"
+                    className="w-full rounded-xl border border-slate-700 bg-slate-950/40 px-4 py-3 text-slate-100 outline-none focus:ring-2 focus:ring-sky-500"
+                    placeholder="Company name"
                   />
                 </div>
-            
-                <div>
+              
+                <div className="sm:col-span-1">
                   <label className="mb-1 block text-sm font-medium">Country</label>
                   <input
                     name="country"
-                    className="w-full rounded-xl border px-3 py-2"
+                    className="w-full rounded-xl border border-slate-700 bg-slate-950/40 px-4 py-3 text-slate-100 outline-none focus:ring-2 focus:ring-sky-500"
+                    placeholder="Country"
                   />
                 </div>
-            
+              
                 <div className="sm:col-span-2">
                   <label className="mb-1 block text-sm font-medium">Message</label>
                   <textarea
                     name="message"
                     required
-                    rows="5"
-                    className="w-full rounded-xl border px-3 py-2"
+                    rows={6}
+                    className="w-full resize-none rounded-xl border border-slate-700 bg-slate-950/40 px-4 py-3 text-slate-100 outline-none focus:ring-2 focus:ring-sky-500"
+                    placeholder="Tell us what you need…"
                   />
                 </div>
               </div>
-            
+              
               <button
                 type="submit"
-                className="mt-6 rounded-xl bg-sky-500 px-6 py-3 font-medium text-white"
+                className="mt-6 inline-flex w-full items-center justify-center rounded-xl bg-sky-500 px-6 py-3 font-medium text-white hover:bg-sky-400"
               >
                 Send Message
               </button>
+
             </form>
           </div>
         </Container>
