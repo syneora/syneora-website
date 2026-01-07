@@ -43,7 +43,7 @@ export default function ContactForm() {
       JSON.stringify(payload)
     );
 
-    window.location.href = "/success.html";
+    window.location.href = "/success";
   } catch (err) {
     setLoading(false);
     setStatus({
