@@ -14,7 +14,45 @@ export async function onRequestPost({ request }) {
 
     // MVP: just succeed so your form flow works end-to-end.
     // Next step: send email / store in DB.
-    console.log("Contact submission:", { name, email, company, country });
+    const emailBody = `New contact request from Syneora website
+
+      Name: ${name}
+      Email: ${email}
+      Company: ${company || "-"}
+      Country: ${country || "-"}
+      Message:
+      ${message}
+      `;
+
+    const res = await fetch("https://api.mailchannels.net/tx/v1/send", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        personalizations: [
+          {
+            to: [{ email: "connect@syneora.com" }],
+            reply_to: { email },
+          },
+        ],
+        from: {
+          email: "no-reply@syneora.com",
+          name: "Syneora Website",
+        },
+        subject: "New contact request – Syneora",
+        content: [
+          {
+            type: "text/plain",
+            value: emailBody,
+          },
+        ],
+      }),
+    });
+
+    if (!res.ok) {
+      const txt = await res.text();
+      console.error("MailChannels error:", txt);
+      return new Response("Email send failed.", { status: 500 });
+    }
 
     return new Response(JSON.stringify({ ok: true }), {
       status: 200,
