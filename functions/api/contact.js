@@ -9,58 +9,56 @@ export async function onRequestPost({ request }) {
     const message = (data?.message || "").trim();
 
     if (!name || !email || !message) {
-      return new Response("Missing required fields.", { status: 400 });
+      return new Response(JSON.stringify({ ok: false, error: "Missing required fields" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json" },
+      });
     }
 
-    // MVP: just succeed so your form flow works end-to-end.
-    // Next step: send email / store in DB.
-    const emailBody = `New contact request from Syneora website
+    const emailBody =
+      `New contact request from Syneora website\n\n` +
+      `Name: ${name}\n` +
+      `Email: ${email}\n` +
+      `Company: ${company || "-"}\n` +
+      `Country: ${country || "-"}\n\n` +
+      `Message:\n${message}\n`;
 
-      Name: ${name}
-      Email: ${email}
-      Company: ${company || "-"}
-      Country: ${country || "-"}
-      Message:
-      ${message}
-      `;
+    // IMPORTANT: use a real Workspace inbox as From to avoid policy blocks
+    const fromEmail = "connect@syneora.com";
 
-    const res = await fetch("https://api.mailchannels.net/tx/v1/send", {
+    const mcRes = await fetch("https://api.mailchannels.net/tx/v1/send", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         personalizations: [
           {
             to: [{ email: "connect@syneora.com" }],
-            reply_to: { email },
+            reply_to: { email }, // replies go to the user
           },
         ],
-        from: {
-          email: "no-reply@syneora.com",
-          name: "Syneora Website",
-        },
+        from: { email: fromEmail, name: "Syneora Website" },
         subject: "New contact request – Syneora",
-        content: [
-          {
-            type: "text/plain",
-            value: emailBody,
-          },
-        ],
+        content: [{ type: "text/plain", value: emailBody }],
       }),
     });
 
-    if (!res.ok) {
-  const txt = await res.text().catch(() => "");
-  return new Response(
-    JSON.stringify({ ok: false, error: txt || "MailChannels failed" }),
-    { status: 500, headers: { "Content-Type": "application/json" } }
-  );
-}
+    const mcText = await mcRes.text().catch(() => "");
+
+    if (!mcRes.ok) {
+      return new Response(JSON.stringify({ ok: false, error: mcText || "MailChannels failed" }), {
+        status: 500,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
 
     return new Response(JSON.stringify({ ok: true }), {
       status: 200,
       headers: { "Content-Type": "application/json" },
     });
   } catch (e) {
-    return new Response("Invalid JSON.", { status: 400 });
+    return new Response(JSON.stringify({ ok: false, error: String(e?.message || e) }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
   }
 }
