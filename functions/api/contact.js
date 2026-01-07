@@ -50,8 +50,10 @@ export async function onRequestPost({ request }) {
 
     if (!res.ok) {
       const txt = await res.text();
-      console.error("MailChannels error:", txt);
-      return new Response("Email send failed.", { status: 500 });
+      return new Response(
+      JSON.stringify({ error: txt }),
+      { status: 500, headers: { "Content-Type": "application/json" } }
+      );
     }
 
     return new Response(JSON.stringify({ ok: true }), {
