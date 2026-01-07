@@ -592,58 +592,69 @@ export default function SyneoraSite() {
             </div>
 
             <form
-              {/*
-              onSubmit={(e) => {
-                e.preventDefault();
-              */}
-                const data = Object.fromEntries(new FormData(e.currentTarget));
-              {/* alert(`Thanks! We\n\n${JSON.stringify(data, null, 2)}`);*/}
-              {/* }} */}
-              className="lg:col-span-2"
-
               name="contact"
               method="POST"
               data-netlify="true"
               data-netlify-honeypot="bot-field"
               action="/success"
-
-              {/* required for Netlify */}
+              className="lg:col-span-2"
+            >
               <input type="hidden" name="form-name" value="contact" />
-              {/* spam trap */}
               <input type="hidden" name="bot-field" />
             
-            >
               <div className="grid gap-4 sm:grid-cols-2">
                 <div>
                   <label className="mb-1 block text-sm font-medium">Name</label>
-                  <input name="name" required className="w-full rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm outline-none ring-indigo-500/20 focus:ring dark:border-slate-700 dark:bg-slate-950" />
+                  <input
+                    name="name"
+                    required
+                    className="w-full rounded-xl border px-3 py-2"
+                  />
                 </div>
+            
                 <div>
                   <label className="mb-1 block text-sm font-medium">Work Email</label>
-                  <input type="email" name="email" required className="w-full rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm outline-none ring-indigo-500/20 focus:ring dark:border-slate-700 dark:bg-slate-950" />
+                  <input
+                    type="email"
+                    name="email"
+                    required
+                    className="w-full rounded-xl border px-3 py-2"
+                  />
                 </div>
+            
                 <div>
                   <label className="mb-1 block text-sm font-medium">Company</label>
-                  <input name="company" className="w-full rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm outline-none ring-indigo-500/20 focus:ring dark:border-slate-700 dark:bg-slate-950" />
+                  <input
+                    name="company"
+                    className="w-full rounded-xl border px-3 py-2"
+                  />
                 </div>
+            
                 <div>
                   <label className="mb-1 block text-sm font-medium">Country</label>
-                  <input name="country" className="w-full rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm outline-none ring-indigo-500/20 focus:ring dark:border-slate-700 dark:bg-slate-950" />
+                  <input
+                    name="country"
+                    className="w-full rounded-xl border px-3 py-2"
+                  />
                 </div>
+            
                 <div className="sm:col-span-2">
-                  <label className="mb-1 block text-sm font-medium">What can we help with?</label>
-                  <textarea name="message" rows={5} className="w-full rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm outline-none ring-indigo-500/20 focus:ring dark:border-slate-700 dark:bg-slate-950" placeholder="e.g., RAG for policy docs, MLOps, SOC co‑pilot, expert network, event partnership…" />
-                </div>
-                <div className="flex items-center gap-3">
-                  <input id="nda" name="nda" type="checkbox" className="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500" />
-                  <label htmlFor="nda" className="text-sm">Happy to sign an NDA</label>
-                </div>
-                <div className="sm:col-span-2">
-                  <button type="submit" className="inline-flex items-center gap-2 rounded-xl bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white shadow transition hover:bg-indigo-500">
-                    Send message <ArrowUpRight className="h-4 w-4" />
-                  </button>
+                  <label className="mb-1 block text-sm font-medium">Message</label>
+                  <textarea
+                    name="message"
+                    required
+                    rows="5"
+                    className="w-full rounded-xl border px-3 py-2"
+                  />
                 </div>
               </div>
+            
+              <button
+                type="submit"
+                className="mt-6 rounded-xl bg-sky-500 px-6 py-3 font-medium text-white"
+              >
+                Send Message
+              </button>
             </form>
           </div>
         </Container>
