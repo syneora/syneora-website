@@ -49,12 +49,12 @@ export async function onRequestPost({ request }) {
     });
 
     if (!res.ok) {
-      const txt = await res.text();
-      return new Response(
-      JSON.stringify({ error: txt }),
-      { status: 500, headers: { "Content-Type": "application/json" } }
-      );
-    }
+  const txt = await res.text().catch(() => "");
+  return new Response(
+    JSON.stringify({ ok: false, error: txt || "MailChannels failed" }),
+    { status: 500, headers: { "Content-Type": "application/json" } }
+  );
+}
 
     return new Response(JSON.stringify({ ok: true }), {
       status: 200,
