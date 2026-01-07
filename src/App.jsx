@@ -603,6 +603,7 @@ export default function SyneoraSite() {
               method="POST"
               data-netlify="true"
               data-netlify-honeypot="bot-field"
+              action="/success"
 
               {/* required for Netlify */}
               <input type="hidden" name="form-name" value="contact" />
