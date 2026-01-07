@@ -1,4 +1,6 @@
-export async function onRequestPost({ request }) {
+export async function onRequestPost(context) {
+  const { request, env } = context;
+
   try {
     const data = await request.json();
 
@@ -15,6 +17,13 @@ export async function onRequestPost({ request }) {
       );
     }
 
+    if (!env?.RESEND_API_KEY) {
+      return new Response(
+        JSON.stringify({ ok: false, error: "RESEND_API_KEY not set in Cloudflare Pages env vars" }),
+        { status: 500, headers: { "Content-Type": "application/json" } }
+      );
+    }
+
     const emailBody =
 `New contact request from Syneora
 
@@ -27,46 +36,34 @@ Message:
 ${message}
 `;
 
-    const mcRes = await fetch("https://api.mailchannels.net/tx/v1/send", {
+    const res = await fetch("https://api.resend.com/emails", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        Authorization: `Bearer ${env.RESEND_API_KEY}`,
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({
-        personalizations: [
-          {
-            to: [{ email: "connect@syneora.com" }],
-            reply_to: { email },
-          },
-        ],
-        from: {
-          email: "connect@syneora.com",
-          name: "Syneora Website",
-        },
+        from: "Syneora <connect@syneora.com>",
+        to: ["connect@syneora.com"],
+        reply_to: email,
         subject: "New contact request – Syneora",
-        content: [
-          {
-            type: "text/plain",
-            value: emailBody,
-          },
-        ],
-        headers: {
-          "X-MailChannels-Auth": "syneora.com",
-        },
+        text: emailBody,
       }),
     });
 
-    const text = await mcRes.text().catch(() => "");
+    const text = await res.text().catch(() => "");
 
-    if (!mcRes.ok) {
+    if (!res.ok) {
       return new Response(
-        JSON.stringify({ ok: false, error: text || "MailChannels rejected request" }),
+        JSON.stringify({ ok: false, error: text || `Resend failed (${res.status})` }),
         { status: 500, headers: { "Content-Type": "application/json" } }
       );
     }
 
-    return new Response(
-      JSON.stringify({ ok: true }),
-      { status: 200, headers: { "Content-Type": "application/json" } }
-    );
+    return new Response(JSON.stringify({ ok: true }), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
   } catch (err) {
     return new Response(
       JSON.stringify({ ok: false, error: String(err?.message || err) }),
